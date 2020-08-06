@@ -34,7 +34,7 @@ router.post('/user/register', async (req, res) => {
 })
 
 
-router.post('/user/authenticate/login', async (req, res) => {
+router.post('/user/authenticate/login',  async (req, res) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email }).select('+password')
@@ -55,12 +55,12 @@ router.get('/users', async (req, res) => {
 
     const users = await User.find()
 
-    res.status(200).json(users)
+    res.status(200).json({users})
 
     try {
         const users = await User.find()
 
-        res.status(200).json(users)
+        res.status(200).json({users, token: generateToken({ id: user.id})})
     }
     catch (error) {
         throw new Error
