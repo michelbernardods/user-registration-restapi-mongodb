@@ -9,7 +9,7 @@ const router = express.Router()
 
 
 function generateToken( userId ) {
-    return jwt.sign({ userId  }, authConfig.secret, {
+    return jwt.sign({ userId }, authConfig.secret, {
         expiresIn: 86400
     })
 }
@@ -17,16 +17,17 @@ function generateToken( userId ) {
 
 router.post('/user/register', async (req, res) => {
     const { email } = req.body
-    try {
+    
+   try {
 
-        if(await User.findOne({ email })) 
-            return res.status(400).json({error: 'User exist'})
+     if(await User.findOne({ email })) 
+        return res.status(400).json({error: 'User exist'})
 
-        const user = await User.create(req.body)
+     const user = await User.create(req.body)
 
-        user.password = undefined
+     user.password = undefined
 
-        return res.status(201).json({ message: 'User create', token: generateToken({ id: user.id})})
+     return res.status(201).json({ message: 'User create', token: generateToken({ id: user.id})})
 
      } catch (error) {
         return res.status(400).json({error: 'Registration failed'})
@@ -35,29 +36,34 @@ router.post('/user/register', async (req, res) => {
 
 
 router.post('/user/authenticate/login',  async (req, res) => {
-    const { email, password } = req.body
-
-    const user = await User.findOne({ email }).select('+password')
-
-    if(!user) 
+   try {
+     const { email, password } = req.body
+        
+     const user = await User.findOne({ email }).select('+password')
+    
+     if(!user) 
         return res.status(400).json({error: 'E-mail not foud'})
-
-    if(!await bcrypt.compare(password, user.password))
+    
+     if(!await bcrypt.compare(password, user.password))
         return res.status(400).json({error: 'Invalid password'})
+    
+     user.password = undefined
+    
+     return res.status(200).json({user, token: generateToken({ id: user.id})})
 
-    user.password = undefined
-
-    return res.status(200).json({user, token: generateToken({ id: user.id})})
+    } catch (error) {
+        throw new error
+    }
 })
 
 
 router.get('/users', async (req, res) => {
 
-    const users = await User.find()
+     const users = await User.find()
 
-    res.status(200).json({users})
+     res.status(200).json({users})
 
-    try {
+     try {
         const users = await User.find()
 
         res.status(200).json({users, token: generateToken({ id: user.id})})

@@ -12,9 +12,9 @@ module.exports = (req, res, next) => {
     if (!splitInTwoParts.lenght === 2)
         return res.status(401).json({error: 'Token error'}) 
 
-    const [ scheme, token ] = splitInTwoParts
+    const [ bearer, token ] = splitInTwoParts
 
-    if (!/^Bearer$/i.test(scheme))
+    if (!/^Bearer$/i.test(bearer))
         return res.status(401).json({error: 'Token malformatted'}) 
     
     jwt.verify(token, authconfig.secret, (err, decoded) => {
@@ -25,4 +25,4 @@ module.exports = (req, res, next) => {
         next()
     })
  
-};
+}
