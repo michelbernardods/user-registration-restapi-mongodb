@@ -30,7 +30,7 @@ router.post('/api/v1/user/register', async (req, res) => {
      return res.status(201).json({ message: 'User create', token: generateToken({ id: user.id})})
 
      } catch (error) {
-        return res.status(400).json({error: 'Registration failed'})
+        throw new Error({error: 'Registration failed'})
     }
 })
 
@@ -51,9 +51,7 @@ router.post('/api/v1/user/authenticate/login',  async (req, res) => {
     
      return res.status(200).json({user, token: generateToken({ id: user.id})})
 
-    } catch (error) {
-        throw new error
-    }
+    } catch (error) { throw new Error({error: 'Failed in Login'})}
 })
 
 
@@ -64,10 +62,7 @@ router.get('/api/v1/users', async (req, res) => {
 
         res.status(200).json({users})
     }
-    catch (error) {
-        //throw new Error
-        console.error('Error na listagem');
-    }
+    catch (error) { throw new Error({error: 'Error to users list'}) }
 })
 
 module.exports = router
