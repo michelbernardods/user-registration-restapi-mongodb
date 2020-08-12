@@ -15,7 +15,7 @@ function generateToken( userId ) {
 }
 
 
-router.post('/user/register', async (req, res) => {
+router.post('/api/v1/user/register', async (req, res) => {
     const { email } = req.body
     
    try {
@@ -35,7 +35,7 @@ router.post('/user/register', async (req, res) => {
 })
 
 
-router.post('/user/authenticate/login',  async (req, res) => {
+router.post('/api/v1/user/authenticate/login',  async (req, res) => {
    try {
      const { email, password } = req.body
         
@@ -57,19 +57,16 @@ router.post('/user/authenticate/login',  async (req, res) => {
 })
 
 
-router.get('/users', async (req, res) => {
-
-     const users = await User.find()
-
-     res.status(200).json({users})
+router.get('/api/v1/users', async (req, res) => {
 
      try {
         const users = await User.find()
 
-        res.status(200).json({users, token: generateToken({ id: user.id})})
+        res.status(200).json({users})
     }
     catch (error) {
-        throw new Error
+        //throw new Error
+        console.error('Error na listagem');
     }
 })
 
