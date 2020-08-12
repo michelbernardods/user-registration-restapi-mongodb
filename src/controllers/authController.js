@@ -62,7 +62,11 @@ router.get('/api/v1/users', async (req, res) => {
 
         res.status(200).json({users})
     }
-    catch (error) { throw new Error({error: 'Error to users list'}) }
+    catch (error) { 
+       throw new Error({error: 'Error to users list'})
+
+    
+     }
 })
 
 module.exports = router
