@@ -1,5 +1,6 @@
 <h2 align="center">Nodejs and MongoDB REST API Project Structure</h2>
 
+<br>
 
 <p align="center">
   <a href="#getting-started">Getting started</a> |
