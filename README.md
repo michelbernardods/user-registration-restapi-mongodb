@@ -1,6 +1,4 @@
-# user-registration-restapi-mongodb
-Nodejs and MongoDB REST API Project Structure
-
+<h2 align="center">Nodejs and MongoDB REST API Project Structure</h2>
 
 
 <p align="center">
